@@ -37,7 +37,8 @@ export const RadioButton = ({ label, value }: IRadioButton) => {
     <Button
       apparence={selectedValue === value ? 'primary' : 'default'}
       onPress={handleSelect}
-      disabled={disabled}>
+      disabled={disabled}
+      leftIcon={selectedValue === value ? 'alarm-light' : 'alarm-dark'}>
       {label}
     </Button>
   );

@@ -133,16 +133,22 @@ const WallowAnimation = ({
           borderRadius: (radius - 70) / 2,
           ...styles.internalCircle,
         }}>
-        {cycles.current % 2 === 0 ? (
+        {isPlaying === null ? (
           <Animated.Image
-            source={walowLight}
-            style={{ height: 50, transform: transform1 }}
+            source={walowDark}
+            style={{
+              height: 50,
+              transform: cycles.current % 2 === 0 ? transform1 : transform2,
+            }}
             resizeMode="contain"
           />
         ) : (
           <Animated.Image
             source={walowLight}
-            style={{ height: 50, transform: transform2 }}
+            style={{
+              height: 50,
+              transform: cycles.current % 2 === 0 ? transform1 : transform2,
+            }}
             resizeMode="contain"
           />
         )}

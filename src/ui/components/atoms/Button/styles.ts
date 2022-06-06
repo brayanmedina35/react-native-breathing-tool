@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   defaultButton: {
     backgroundColor: '#6a5cc1',
@@ -18,6 +21,7 @@ const styles = StyleSheet.create({
   primaryLabel: {
     color: '#FFFFFF',
   },
+  icon: { height: 14, width: 14, marginRight: 3 },
 });
 
 export default styles;
