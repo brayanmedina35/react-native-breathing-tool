@@ -6,11 +6,13 @@ import { Button } from '../../atoms';
 interface IButtonRadioGroupContext {
   onSelect?: (value: string) => void;
   selectedValue: string | null;
+  disabled: boolean;
 }
 
 const ButtonRadioGroupContext = createContext<IButtonRadioGroupContext>({
   onSelect: () => {},
   selectedValue: null,
+  disabled: false,
 });
 
 const { Provider } = ButtonRadioGroupContext;
@@ -22,7 +24,9 @@ export interface IRadioButton {
 }
 
 export const RadioButton = ({ label, value }: IRadioButton) => {
-  const { onSelect, selectedValue } = useContext(ButtonRadioGroupContext);
+  const { onSelect, selectedValue, disabled } = useContext(
+    ButtonRadioGroupContext,
+  );
   const handleSelect = () => {
     if (onSelect) {
       onSelect(value);
@@ -32,7 +36,8 @@ export const RadioButton = ({ label, value }: IRadioButton) => {
   return (
     <Button
       apparence={selectedValue === value ? 'primary' : 'default'}
-      onPress={handleSelect}>
+      onPress={handleSelect}
+      disabled={disabled}>
       {label}
     </Button>
   );
@@ -42,12 +47,14 @@ export interface IButtonRadioGroup {
   children: JSX.Element[] | undefined;
   defaultValue?: string | null;
   onSelect?: (value: string) => void;
+  disabled?: boolean;
 }
 
 export const ButtonRadioGroup = ({
   children,
   onSelect = () => {},
   defaultValue = null,
+  disabled = false,
 }: IButtonRadioGroup) => {
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
 
@@ -66,6 +73,7 @@ export const ButtonRadioGroup = ({
         value={{
           onSelect: hanldeSelect,
           selectedValue: optionSelected,
+          disabled,
         }}>
         {children?.map((radioButton: any, index: number) => (
           <View

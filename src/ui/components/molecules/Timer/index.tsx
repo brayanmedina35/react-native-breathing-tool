@@ -5,9 +5,10 @@ import styles from './styles';
 interface ITimer extends TextProps {
   duration: number;
   running: boolean;
+  reset: boolean;
 }
 
-const Timer = ({ duration = 0, running, ...textProps }: ITimer) => {
+const Timer = ({ duration = 0, running, reset, ...textProps }: ITimer) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [count, setCount] = useState(0);
   const [currentPercentage, setCurrentPercentage] = useState(1);
@@ -20,6 +21,13 @@ const Timer = ({ duration = 0, running, ...textProps }: ITimer) => {
       setCount(value);
     }
   };
+
+  useEffect(() => {
+    if (reset) {
+      fadeAnim.setValue(0);
+      updateSeconds(0);
+    }
+  }, [reset, count, setCount]);
 
   useEffect(() => {
     if (running) {

@@ -21,6 +21,7 @@ interface IBreatheTemplate {}
 const BreatheTemplate = ({}: IBreatheTemplate) => {
   const [isPlaying, setIsPlaying] = useState(null);
   const [timeSelected, setTimeSelected] = useState(DEFAULT_BREATHE_INDICATOR);
+  const [reset, setReset] = useState(null);
 
   const initializeBreatheIndicator = () => {
     setIsPlaying(null);
@@ -32,6 +33,9 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
 
   const handlerTimeSelect = (value: string) => {
     setTimeSelected(value);
+    if (timeSelected !== value) {
+      setReset(true);
+    }
   };
 
   const duration = parseInt(timeSelected);
@@ -47,6 +51,7 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
         isPlaying={isPlaying}
         onCompleted={initializeBreatheIndicator}
         inhalationTime={inhalationTime}
+        reset={reset}
       />
       <View style={styles.timerContainer}>
         <Timer duration={duration} running={isPlaying} style={styles.timer} />
@@ -60,7 +65,8 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
       </View>
       <ButtonRadioGroup
         defaultValue={timeSelected}
-        onSelect={handlerTimeSelect}>
+        onSelect={handlerTimeSelect}
+        disabled={isPlaying}>
         <RadioButton
           key={`key-1`}
           label={BREATHE_INDICATORS['60000'].label}

@@ -8,6 +8,7 @@ interface IWallowAnimation {
   isPlaying: boolean;
   playingCount: number;
   duration: number;
+  reset: boolean;
 }
 
 const WallowAnimation = ({
@@ -15,6 +16,7 @@ const WallowAnimation = ({
   isPlaying = false,
   playingCount,
   duration = 2000,
+  reset = false,
 }: IWallowAnimation) => {
   const fadeAnim1 = useRef(new Animated.Value(0)).current;
   const fadeAnim2 = useRef(new Animated.Value(1)).current;
@@ -60,6 +62,13 @@ const WallowAnimation = ({
     cycles.current++;
     setCount(cycles.current);
   };
+
+  useEffect(() => {
+    if (reset) {
+      fadeAnim1.setValue(0);
+      fadeAnim2.setValue(1);
+    }
+  }, [reset]);
 
   useEffect(() => {
     if (isPlaying) {

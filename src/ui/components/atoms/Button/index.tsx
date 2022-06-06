@@ -6,6 +6,7 @@ interface IButton {
   children: string | React.ReactNode;
   onPress?: () => void;
   apparence: 'default' | 'primary';
+  disabled?: boolean;
 }
 
 const BUTTON_STYLES: { [key: string]: string } = {
@@ -22,6 +23,7 @@ const Button = ({
   children,
   onPress: buttonHandler = () => {},
   apparence = 'default',
+  disabled = false,
 }: IButton) => {
   const isString = typeof children === 'string';
 
@@ -30,6 +32,7 @@ const Button = ({
 
   return (
     <TouchableOpacity
+      disabled={disabled}
       onPress={buttonHandler}
       style={[styles.button, buttonStyle]}>
       {isString ? <Text style={labelStyle}>{children}</Text> : <>{children}</>}
