@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { commonsStyles } from './../../../theme';
 import { BreatheIndicator } from './../../organisms';
-import { Button } from './../../atoms';
+import { Button, ImageButton } from './../../atoms';
 import { playIcon, pauseIcon } from './../../../icons';
+import { Timer } from './../../molecules';
+import styles from './styles';
 
 interface IBreatheTemplate {}
 
@@ -20,20 +22,24 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
 
   return (
     <View style={commonsStyles.background}>
+      <Text style={styles.title}>Breathe & relax</Text>
+      <Text style={styles.subTitle}>Inhale</Text>
       <BreatheIndicator
         duration={10000}
         isPlaying={isPlaying}
         onCompleted={initializeBreatheIndicator}
       />
-      <View style={{ paddingTop: 30 }}>
-        <Button onPress={toggleBreatheIndicator}>
-          <Image
-            source={isPlaying ? pauseIcon : playIcon}
-            style={{ height: 50, width: 50 }}
-          />
-        </Button>
+      <View style={styles.timerContainer}>
+        <Timer style={styles.timer} />
       </View>
-      <View style={{ paddingTop: 50, flexDirection: 'row' }}>
+      <View style={styles.playContainer}>
+        <ImageButton
+          source={isPlaying ? pauseIcon : playIcon}
+          onPress={toggleBreatheIndicator}
+          style={styles.playImage}
+        />
+      </View>
+      <View style={styles.timesSelectContainer}>
         <Button
           onPress={() => {
             console.warn('Hola mundo');
