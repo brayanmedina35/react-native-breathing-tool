@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Animated, Easing } from 'react-native';
+import { WallowAnimation } from './../../molecules';
 import styles from './styles';
 
 const inputRange = [0, 1];
@@ -20,7 +21,7 @@ const BreatheIndicator = ({
   onCompleted = () => {},
 }: IBreatheIndicator) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const [count, setCount] = useState(0);
+  const [playingCount, setPlayingCount] = useState(0);
   const [currentValue, setCurrentValue] = useState(1);
   const [outputRange, setOutputRange] = useState(['0deg', '360deg']);
   const [rotate] = useState(fadeAnim.interpolate({ inputRange, outputRange }));
@@ -32,12 +33,12 @@ const BreatheIndicator = ({
     if (isPlaying) {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: count === 0 ? duration : duration * (1 - currentValue), //0.6
+        duration: playingCount === 0 ? duration : duration * (1 - currentValue), //0.6
         useNativeDriver: true,
         easing: Easing.linear,
       }).start();
       setOutputRange(['0deg', '-360deg']);
-      setCount(count + 1);
+      setPlayingCount(playingCount + 1);
     }
     if (isPlaying === false) {
       fadeAnim.stopAnimation(value => {
@@ -51,7 +52,7 @@ const BreatheIndicator = ({
       if (value === 1) {
         fadeAnim.setValue(0);
         onCompleted();
-        setCount(0);
+        setPlayingCount(0);
       }
     });
   }, []);
@@ -60,19 +61,27 @@ const BreatheIndicator = ({
   const transform1 = [{ rotate: rotateOpposit }];
 
   return (
-    <View
-      style={[
-        styles.container,
-        { height: radius, width: radius, borderRadius: radius / 2 },
-      ]}>
-      <Animated.View style={[styles.item, { transform, height: radius }]}>
-        <Animated.View style={[styles.externalDot, { transform: transform1 }]}>
+    <>
+      <View
+        style={[
+          styles.container,
+          { height: radius, width: radius, borderRadius: radius / 2 },
+        ]}>
+        <Animated.View style={[styles.item, { transform, height: radius }]}>
           <Animated.View
-            style={[styles.internalDot, { transform: transform1 }]}
-          />
+            style={[styles.externalDot, { transform: transform1 }]}>
+            <Animated.View
+              style={[styles.internalDot, { transform: transform1 }]}
+            />
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
-    </View>
+      </View>
+      <WallowAnimation
+        radius={radius}
+        isPlaying={isPlaying}
+        playingCount={playingCount}
+      />
+    </>
   );
 };
 
@@ -102,25 +111,6 @@ const BreatheIndicatorWrapper = ({
         isPlaying={isPlaying}
         onCompleted={onCompleted}
       />
-      <View
-        style={{
-          width: radius - 50,
-          height: radius - 50,
-          position: 'absolute',
-          backgroundColor: '#9183ec',
-          borderRadius: (radius - 50) / 2,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            width: radius - 70,
-            height: radius - 70,
-            position: 'absolute',
-            backgroundColor: '#806bfc',
-            borderRadius: (radius - 70) / 2,
-          }}></View>
-      </View>
     </View>
   );
 };

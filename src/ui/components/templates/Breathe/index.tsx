@@ -21,7 +21,7 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
   return (
     <View style={commonsStyles.background}>
       <BreatheIndicator
-        duration={5000}
+        duration={10000}
         isPlaying={isPlaying}
         onCompleted={initializeBreatheIndicator}
       />
