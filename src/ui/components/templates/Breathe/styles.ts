@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   playContainer: {
     paddingTop: 30,
+    paddingBottom: 40,
   },
   timerContainer: {
     paddingTop: 20,

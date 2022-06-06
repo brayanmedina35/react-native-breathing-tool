@@ -5,12 +5,17 @@ import { BreatheIndicator } from './../../organisms';
 import { Button, ImageButton } from './../../atoms';
 import { playIcon, pauseIcon } from './../../../icons';
 import { Timer } from './../../molecules';
+import {
+  ButtonRadioGroup,
+  RadioButton,
+} from './../../molecules/ButtonRadioGroup/index';
 import styles from './styles';
 
 interface IBreatheTemplate {}
 
 const BreatheTemplate = ({}: IBreatheTemplate) => {
   const [isPlaying, setIsPlaying] = useState(null);
+  const [timeSelected, setTimeSelected] = useState('60000');
 
   const initializeBreatheIndicator = () => {
     setIsPlaying(null);
@@ -20,12 +25,16 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
     setIsPlaying(!isPlaying);
   };
 
+  const handlerTimeSelect = (value: string) => {
+    setTimeSelected(value);
+  };
+
   return (
     <View style={commonsStyles.background}>
       <Text style={styles.title}>Breathe & relax</Text>
       <Text style={styles.subTitle}>Inhale</Text>
       <BreatheIndicator
-        duration={10000}
+        duration={parseInt(timeSelected)}
         isPlaying={isPlaying}
         onCompleted={initializeBreatheIndicator}
       />
@@ -39,26 +48,13 @@ const BreatheTemplate = ({}: IBreatheTemplate) => {
           style={styles.playImage}
         />
       </View>
-      <View style={styles.timesSelectContainer}>
-        <Button
-          onPress={() => {
-            console.warn('Hola mundo');
-          }}>
-          <Text>1 min</Text>
-        </Button>
-        <Button
-          onPress={() => {
-            console.warn('Hola mundo');
-          }}>
-          <Text>2 min</Text>
-        </Button>
-        <Button
-          onPress={() => {
-            console.warn('Hola mundo');
-          }}>
-          <Text>3 min</Text>
-        </Button>
-      </View>
+      <ButtonRadioGroup
+        defaultValue={timeSelected}
+        onSelect={handlerTimeSelect}>
+        <RadioButton key={`key-1`} label={'1 min'} value="60000" />
+        <RadioButton key={`key-2`} label={'2 min'} value="120000" />
+        <RadioButton key={`key-3`} label={'3 min'} value="180000" />
+      </ButtonRadioGroup>
     </View>
   );
 };
