@@ -7,14 +7,15 @@ interface IWallowAnimation {
   radius: number;
   isPlaying: boolean;
   playingCount: number;
+  duration: number;
 }
 
 const WallowAnimation = ({
   radius,
   isPlaying = false,
   playingCount,
+  duration = 2000,
 }: IWallowAnimation) => {
-  const duration = 2000;
   const fadeAnim1 = useRef(new Animated.Value(0)).current;
   const fadeAnim2 = useRef(new Animated.Value(1)).current;
   const [count, setCount] = useState(0);

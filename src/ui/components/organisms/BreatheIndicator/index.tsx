@@ -11,14 +11,15 @@ interface IBreatheIndicator {
   duration?: number;
   isPlaying: boolean;
   onCompleted: () => void;
+  inhalationTime: number;
 }
-const fadeAnimValue = { value: 0 };
 
 const BreatheIndicator = ({
   radius = 200,
   duration = 3000,
   isPlaying = false,
   onCompleted = () => {},
+  inhalationTime,
 }: IBreatheIndicator) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [playingCount, setPlayingCount] = useState(0);
@@ -33,7 +34,7 @@ const BreatheIndicator = ({
     if (isPlaying) {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: playingCount === 0 ? duration : duration * (1 - currentValue), //0.6
+        duration: playingCount === 0 ? duration : duration * (1 - currentValue),
         useNativeDriver: true,
         easing: Easing.linear,
       }).start();
@@ -80,6 +81,7 @@ const BreatheIndicator = ({
         radius={radius}
         isPlaying={isPlaying}
         playingCount={playingCount}
+        duration={inhalationTime}
       />
     </>
   );
@@ -90,6 +92,7 @@ const BreatheIndicatorWrapper = ({
   duration,
   isPlaying,
   onCompleted = () => {},
+  inhalationTime,
 }: IBreatheIndicator) => {
   const dotRadius = 10;
   const borderWidthExternarC1 = 4;
@@ -110,6 +113,7 @@ const BreatheIndicatorWrapper = ({
         duration={duration}
         isPlaying={isPlaying}
         onCompleted={onCompleted}
+        inhalationTime={inhalationTime}
       />
     </View>
   );
